@@ -5,10 +5,13 @@ import { Provider } from 'react-redux'
 
 import store from './store'
 import Root from './components/Root'
+import Header from './components/Header'
 
 render (
   <Provider store={store}>
-    <Root/>
+   <Header />
   </Provider>,
   document.getElementById('main')
 )
+
+
