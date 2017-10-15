@@ -29,11 +29,9 @@ export default class Header extends Component {
             {
                 campuses && campuses.map((campus, idx) => {
                     return (
-                        <div height='25px' key={idx}>
-                            <ul>
-                                <img src={campus.imageUrl}/>
-                            </ul>
-                            <span>{campus.name}</span>
+                        <div className="column" key={idx}>
+                            <img src={campus.imageUrl}/>
+                            <span className="h6">{campus.name}</span>
                         </div>
                     )
                 })

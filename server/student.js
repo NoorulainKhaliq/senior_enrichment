@@ -24,11 +24,11 @@ router.post('/newstudent', function(req, res, next) {
     .catch(next)
 })
 
-router.put('/updateStudent', function(req, res, next) {
-    let studentToUpdate = req.body
+router.put('/:id', function(req, res, next) {
+    let studentId = req.params.id
     Student.findById({
         where: {
-            id: campusToUpdate.id
+            id: studentId
         }
     })
     .then(Student.update({
@@ -39,8 +39,8 @@ router.put('/updateStudent', function(req, res, next) {
     .catch(next)
 })
 
-router.delete('/:studentId', function (req, res, next) {
-    const id = req.params.studentId;
+router.delete('/:id', function (req, res, next) {
+    const id = req.params.id;
   
     Student.destroy({ where: { id } })
       .then(() => res.status(204).end())
