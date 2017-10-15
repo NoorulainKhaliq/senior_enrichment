@@ -5,7 +5,7 @@ export default class AllStudents extends Component {
     constructor() {
         super()
         this.state = {
-            allStudents = []
+            allStudents: []
         }
     }
 
@@ -18,9 +18,22 @@ export default class AllStudents extends Component {
     }
 
     render() {
-        console.log(this.state.allStudents)
+        const students = this.state.allStudents;
+        console.log(students)
         return(
-            <div><h1>Hey</h1></div>
+            <div>
+                {
+                    students.map((student, idx) => {
+                        return (
+                            <div key={idx}>
+                                <ul>
+                                    <li>{student.name}</li>
+                                </ul>
+                            </div>
+                        )
+                    })
+                }
+            </div>
         )
     }
 }

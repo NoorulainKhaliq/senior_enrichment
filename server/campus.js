@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router();
-const { Campus } = require('../db/models');
+const { Campus, Student } = require('../db/models');
 
 router.get('/', function(req, res, next) {
     Campus.findAll()
@@ -8,10 +8,12 @@ router.get('/', function(req, res, next) {
     .catch(next)
 })
 
+//get all students based on their campusId
 router.get('/:id', function(req, res, next) {
+    console.log('server')
     const ID = req.params.id;
-    Campus.findById(ID)
-    .then(foundCampus => res.json(foundCampus))
+    Student.findAll({where: {campusId: ID}})
+    .then(foundStudents => res.json(foundStudents))
     .catch(next)
 })
 

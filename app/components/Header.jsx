@@ -7,12 +7,15 @@ export default class Header extends Component {
 
     render() {
         return (
-            <header>
-                <div className="pull-right">
-                    <button type="button" className="btn btn-primary btn-lg">Home</button>
-                    <button type="button" className="btn btn-secondary btn-lg">Student</button>
-                </div>
-            </header>
+            <div>
+                    <header>
+                        <div className="pull-right">
+                            <button type="button" className="btn btn-primary btn-lg">Home</button>
+                            <button type="button" className="btn btn-secondary btn-lg">Student</button>
+                        </div>
+                    </header>
+                <hr></hr>
+            </div>
         )
     }
  }
