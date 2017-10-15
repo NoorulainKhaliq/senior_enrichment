@@ -25,7 +25,7 @@ router.post('/newcampus', function(req, res, next) {
     .catch(next)
 })
 
-router.put('/updateCampus', function(req, res, next) {
+router.put('/:id', function(req, res, next) {
     let campusToUpdate = req.body
     Campus.findById({
         where: {
@@ -38,19 +38,13 @@ router.put('/updateCampus', function(req, res, next) {
     .catch(next)
 })
 
-router.delete('/:campusId', function (req, res, next) {
+router.delete('/:id', function (req, res, next) {
     const id = req.params.campusId;
   
     Campus.destroy({ where: { id } })
       .then(() => res.status(204).end())
       .catch(next);
   });
-
-// GET
-// - all campuses
-// - a campus by id
-// - all students
-// - a student by id
 
 
 module.exports = router;
