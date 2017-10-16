@@ -6,12 +6,14 @@ import AllStudents from './AllStudents';
 import SingleCampus from './SingleCampus'
 import { Route, Switch, Redirect } from 'react-router-dom';
 
+
 export default class Main extends Component {
     constructor(props) {
         super()
         this.state = {
             allCampuses: [],
-            selectedCampus: [] //all the students associated with the selected campus
+            selectedCampus: [], //all the students associated with the selected campus
+            allStudents: []
         }
         this.selectedCampus = this.selectedCampus.bind(this)
     }
@@ -20,6 +22,11 @@ export default class Main extends Component {
         .then(res => res.data)
         .then(campuses => {
             this.setState({allCampuses: campuses})
+        })
+        axios.get('/api/student')
+        .then(res => res.data)
+        .then(students => {
+            this.setState({allStudents: students})
         })
     }
 
@@ -35,9 +42,16 @@ export default class Main extends Component {
         return (
             <div>
                 <Header />
-                <AllCampuses selectedCampus={this.selectedCampus} campuses={this.state.allCampuses}/>
-                <SingleCampus selectedCampus={this.state.selectedCampus} />
+                    <Switch>
+                        <Route exact path='/' render={() => (<AllCampuses selectedCampus={this.selectedCampus} campuses={this.state.allCampuses}/>)}/>
+                        <Route exact path='/students' render={() => (<AllStudents students={this.state.allStudents} allCampuses={this.state.allCampuses}/>)}/>
+                        <Route path='/campus/:campusId' component={SingleCampus}/>
+                    </Switch>
             </div>  
         )
     }
 }
+
+
+//<AllCampuses selectedCampus={this.selectedCampus} campuses={this.state.allCampuses}/>
+//<SingleCampus selectedCampus={this.state.selectedCampus} />

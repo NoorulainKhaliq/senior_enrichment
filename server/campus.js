@@ -8,12 +8,11 @@ router.get('/', function(req, res, next) {
     .catch(next)
 })
 
-//get all students based on their campusId
 router.get('/:id', function(req, res, next) {
     console.log('server')
     const ID = req.params.id;
-    Student.findAll({where: {campusId: ID}})
-    .then(foundStudents => res.json(foundStudents))
+    Campus.findById(ID)
+    .then(foundCampus => res.json(foundCampus))
     .catch(next)
 })
 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const style = {width: '100px'}
@@ -10,8 +11,12 @@ export default class Header extends Component {
             <div>
                     <header>
                         <div className="pull-right">
+                            <Link to='/'>
                             <button type="button" className="btn btn-primary btn-lg">Home</button>
+                            </Link>
+                            <Link to='/students'>
                             <button type="button" className="btn btn-secondary btn-lg">Student</button>
+                            </Link>
                         </div>
                     </header>
                 <hr></hr>
@@ -19,17 +24,3 @@ export default class Header extends Component {
         )
     }
  }
-
-
-         //   <div className="campus-view">
-        //     {
-        //         campuses && campuses.map((campus, idx) => {
-        //             return (
-        //                 <div className="column" key={idx}>
-        //                     <img src={campus.imageUrl}/>
-        //                     <span className="h6">{campus.name}</span>
-        //                 </div>
-        //             )
-        //         })
-        //     }
-        //   </div>

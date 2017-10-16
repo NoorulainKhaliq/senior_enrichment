@@ -1,38 +1,44 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-export default class AllStudents extends Component {
-    constructor() {
-        super()
-        this.state = {
-            allStudents: []
-        }
-    }
+//be able to add and remove students from here
 
-    componentDidMount() {
-        axios.get('/api/student')
-        .then(res => res.data)
-        .then(students => {
-            this.setState({allStudents: students})
-        })
+export default class AllStudents extends Component {
+    constructor(props) {
+        super()
     }
 
     render() {
-        const students = this.state.allStudents;
-        console.log(students)
+        const students = this.props.students; //array of objects
+        const campuses = this.props.allCampuses; //array of objects
         return(
             <div>
-                {
-                    students.map((student, idx) => {
-                        return (
-                            <div key={idx}>
-                                <ul>
-                                    <li>{student.name}</li>
-                                </ul>
-                            </div>
-                        )
-                    })
-                }
+            <table className="table" >
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Campus</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {
+                        students && students.map((student, idx) => {
+                            return (
+                                <tr key={idx}>
+                                    <td>{student.id}</td>
+                                    <td>{student.name}</td>
+                                    <td>
+                                        {
+                                            campuses && campuses.find(campus => campus.id === student.campusId).name
+                                        }
+                                    </td>
+                                </tr>
+                            )
+                        })
+                    }
+                </tbody>
+            </table>  
             </div>
         )
     }
