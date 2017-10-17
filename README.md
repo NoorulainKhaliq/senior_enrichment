@@ -36,8 +36,8 @@ Use at least sequelize, express, react, and redux when creating this app. You ca
 #### See Wireframes folder for visual
 
 - Navigation: as a user I...
-  * will land on **Home** by default
-  * can navigate to **Campuses** from **Home**
+  * will land on **Home** by default     ?
+  * can navigate to **Campuses** from **Home**  ?
   * can navigate to **Students** from **Home**
   * can navigate to view a **Single Campus** from **Campuses**
   * can navigate to view a **Single Student** from **Students**

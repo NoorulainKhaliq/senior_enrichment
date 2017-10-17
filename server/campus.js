@@ -11,7 +11,9 @@ router.get('/', function(req, res, next) {
 router.get('/:id', function(req, res, next) {
     console.log('server')
     const ID = req.params.id;
-    Campus.findById(ID)
+    Campus.findById(ID, {include: [{
+        model: Student
+    }]})
     .then(foundCampus => res.json(foundCampus))
     .catch(next)
 })

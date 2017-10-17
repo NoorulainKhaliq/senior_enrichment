@@ -1,7 +1,6 @@
 const router = require('express').Router();
 
-router.use('/campus', require('./campus'));
-router.use('/student', require('./student'));
+router.use('/api', require('./api'));
 
 
 router.use(function (req, res) {

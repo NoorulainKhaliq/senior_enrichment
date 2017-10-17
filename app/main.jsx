@@ -5,12 +5,13 @@ import { Provider } from 'react-redux'
 
 import store from './store'
 import Main from './components/Main'
+import Form from './components/Form'
 import { BrowserRouter as Router } from 'react-router-dom'
 
 render (
   <Provider store={store}>
     <Router>
-      <Main />
+      <Main/>
     </Router>
   </Provider>,
   document.getElementById('main')

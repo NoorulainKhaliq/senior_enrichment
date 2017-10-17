@@ -15,7 +15,10 @@ export default class Header extends Component {
                             <button type="button" className="btn btn-primary btn-lg">Home</button>
                             </Link>
                             <Link to='/students'>
-                            <button type="button" className="btn btn-secondary btn-lg">Student</button>
+                            <button type="button" className="btn btn-secondary btn-lg">Students</button>
+                            </Link>
+                            <Link to='/campus'>
+                            <button type="button" className="btn btn-secondary btn-lg">Campuses</button>
                             </Link>
                         </div>
                     </header>
