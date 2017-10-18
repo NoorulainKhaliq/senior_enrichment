@@ -17,7 +17,6 @@ export default class AllStudents extends Component {
             newStudentName: "",
             selectedCampus: ""
         }
-        this.handleOnClick = this.handleOnClick.bind(this);
         this.deleteThisStudent = this.deleteThisStudent.bind(this);
         this.addStudent = this.addStudent.bind(this);
         this.studentName = this.studentName.bind(this);
@@ -36,19 +35,14 @@ export default class AllStudents extends Component {
         })
     }
 
-    handleOnClick(event){
-        event.preventDefault();
-        //the id of the student we want to delete
-        console.log(event.target.value) 
-    }
-
     deleteThisStudent(event) {
         //try to rerender dom immediately to reflect the changes made
         const id = event.target.value;
         axios.delete(`/api/student/${id}`)
     }
 
-    addStudent() {
+    addStudent(event) {
+        event.preventDefault();
         axios.post('/api/student/newStudent', {
             name: this.state.newStudentName,
             email: this.state.newStudentEmail,
@@ -91,7 +85,9 @@ export default class AllStudents extends Component {
                             return (
                                 <tr key={idx}>
                                     <NavLink to={`/student/${student.id}`}><td>{student.name}</td></NavLink>
-                                    <td>{student.campus.name}</td>
+                                    
+                                    <td> 
+                                    {student.campus ? student.campus.name : 'no campus assigned'}</td>
                                     <td>
                                     <button onClick={this.deleteThisStudent} value={student.id} type="button" className="btn btn-secondary btn-sm">Remove</button>
                                     </td>

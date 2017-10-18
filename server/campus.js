@@ -42,7 +42,7 @@ router.put('/:id', function(req, res, next) {
 })
 
 router.delete('/:id', function (req, res, next) {
-    const id = req.params.campusId;
+    const id = req.params.id;
   
     Campus.destroy({ where: { id } })
       .then(() => res.status(204).end())
