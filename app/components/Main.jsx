@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios'
 import Header from './Header'
 import AllCampuses from './AllCampuses';
 import AllStudents from './AllStudents';
@@ -26,4 +25,4 @@ const Main = () => {
 
 export default Main;
 
-//<Route exact path='/students/:id' component={SingleStudent}/>
+//<Route exact path='/removeStudent/:id' component={AllStudents}/>

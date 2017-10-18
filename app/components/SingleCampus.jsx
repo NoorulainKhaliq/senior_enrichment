@@ -24,7 +24,7 @@ export default class SingleCampus extends Component{
 
     render() {
         const campus = this.state.campus;
-        const students = campus.students;
+        const students = campus.students ? campus.students : {};
           return (
             <div>
                 <h3>{campus.name}</h3>

@@ -39,9 +39,11 @@ router.get('/:id', function(req, res, next) {
 })
 
 router.post('/newstudent', function(req, res, next) {
+    console.log('post request hit')
     Student.create({
         name: req.body.name,
-        email: req.body.email
+        email: req.body.email,
+        campusId: req.body.campusId
     })
     .then(createdStudent => res.json(createdStudent))
     .catch(next)

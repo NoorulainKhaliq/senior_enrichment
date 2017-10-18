@@ -3,7 +3,8 @@ import httpRequest from '../utils/http-request';
 export default Object.freeze({
     getAllStudents,
     getByCampusId,
-    getSingleStudent
+    getSingleStudent,
+    removeStudent
 })
 
 function getAllStudents() {
@@ -23,3 +24,12 @@ function getSingleStudent(id) {
     .then(res => res.data)
     .then(student => student)
 }
+
+function removeStudent(id) {
+    return httpRequest.delete(`/api/student/${id}`)
+}
+
+// function removeStudent(id) {
+//     return httpRequest.delete(`/api/student/${id}`)
+//     .then()
+// }

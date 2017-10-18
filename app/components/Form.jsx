@@ -1,36 +1,42 @@
 import React, {Component} from 'react';
 import studentService from '../services/student-service'
 
-//will eventually be added to all students component as a button
-export default class Form extends Component {
-    constructor(props) {
-      super(props);
-      this.state = {value: ''};
-  
-      this.handleChange = this.handleChange.bind(this);
-      this.handleSubmit = this.handleSubmit.bind(this);
+
+export default class Form extends Component{
+  constructor() {
+    super()
+    this.state = {
+      name: "",
+      email: "",
+      campus: ""
     }
-  
-    handleChange(event) {
-      this.setState({value: event.target.value});
-    }
-  
-    handleSubmit(event) {
-      alert('A name was submitted: ' + this.state.value);
-      event.preventDefault();
-    }
-  
-    render() {
-        console.log(this.state.value)
-      return (
-          //should also have a drop down menu with the campuses to choose from to add student
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Name:
-            <input type="text" value={this.state.value} onChange={this.handleChange} />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
-      );
-    }
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
+  
+  handleSubmit(event) {
+    event.preventDefault();
+    console.log(event.target.value)
+  }
+
+  handleChange(event) {
+    this.setState({name: event.target.value})
+  }
+
+  render() {
+      return(
+        <form onSubmit={this.handleSubmit}>
+            <div>
+            <input type="text" name="email" />
+              <legend>Add a Student</legend>
+                <label>Name <input type="text" onChange={this.handleChange}/></label>
+                  <br />
+                <label>Email <input type="text" onChange={this.handleChange}/></label>
+                  <br/>
+                <label>Campus <input type="text" onChange={this.handleChange}/></label>
+            </div>
+          <button type="submit" className="btn btn-success">Add!</button>
+        </form>
+      ) 
+    }
+}
