@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import {NavLink} from 'react-router-dom'
-import campusService from './campus-service'
+import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom'
+import axios from 'axios';
 
 export default class AllCampuses extends Component {
     constructor(props) {
@@ -10,7 +10,7 @@ export default class AllCampuses extends Component {
             campusName: "",
             campusImgUrl: ""
         }
-        
+
         this.deleteCampus = this.deleteCampus.bind(this)
         this.imgUrl = this.imgUrl.bind(this)
         this.campusName = this.campusName.bind(this)
@@ -18,21 +18,19 @@ export default class AllCampuses extends Component {
     }
 
     componentWillMount() {
-        campusService.getAllCampuses()
+        axios.get(`/api/campus`)
+            .then(res => res.data)
             .then(allCampuses =>
-                this.setState({
-                    allCampuses
-                })
+                this.setState({ allCampuses })
             )
     }
 
     deleteCampus(event) {
         const id = event.target.value;
         const value = this.state.allCampuses.filter(campus => campus.id !== Number(id))
-        this.setState({allCampuses: value})
-        campusService.deleteCampus(id)
+        this.setState({ allCampuses: value })
+        axios.delete(`api/campus/${id}`)
     }
-    
 
     addCampus(event) {
         event.preventDefault();
@@ -40,7 +38,8 @@ export default class AllCampuses extends Component {
             name: this.state.campusName,
             imageUrl: this.state.campusImgUrl
         }
-        campusService.createCampus(campusToCreate)
+        axios.post(`api/campus`, campusToCreate)
+            .then(res => res.data)
             .then(createdCampus => this.setState({
                 campusName: "",
                 campusImgUrl: "",
@@ -67,36 +66,36 @@ export default class AllCampuses extends Component {
         return (
             <div className="col-xs-10">
                 <div className="row">
-                {
-                    !campuses && <div>Loading...</div>
-                }
-            {  
-                campuses && campuses.map((campus, idx)=>{
-                    return (
-                        <div className="col-xs-10" key={idx}>
-                        
-                <button onClick={this.deleteCampus} value={campus.id} type="button" className="btn btn-secondary btn-sm">X</button>
-                            <NavLink to={`/campus/${campus.id}`}>
-                            <img src={campus.imageUrl} width='50%' height='50%'/>
-                            <div className={"caption"}>
-                                <h5>
-                                    <span>{campus.name}</span>
-                                </h5>
-                            </div>
-                            </NavLink>
-                        </div>
-                    )
-                })
-            }
+                    {
+                        !campuses && <div>Loading...</div>
+                    }
+                    {
+                        campuses && campuses.map((campus, idx) => {
+                            return (
+                                <div className="col-xs-10" key={idx}>
+
+                                    <button onClick={this.deleteCampus} value={campus.id} type="button" className="btn btn-secondary btn-sm">X</button>
+                                    <NavLink to={`/campus/${campus.id}`}>
+                                        <img src={campus.imageUrl} width='50%' height='50%' />
+                                        <div className={"caption"}>
+                                            <h5>
+                                                <span>{campus.name}</span>
+                                            </h5>
+                                        </div>
+                                    </NavLink>
+                                </div>
+                            )
+                        })
+                    }
                 </div>
                 <div>
 
-                <form onSubmit={this.addCampus}>
-                    <legend>Add a Campus</legend>
-                    <input onChange={this.campusName} value={this.state.campusName} type="text" name="campus" placeholder="enter campus name"/>
-                    <input onChange={this.imgUrl} value={this.state.campusImgUrl} type='text' name="image" placeholder="enter imgUrl"/>
-                    <button type='submit'>ADD</button>
-                </form>
+                    <form onSubmit={this.addCampus}>
+                        <legend>Add a Campus</legend>
+                        <input onChange={this.campusName} value={this.state.campusName} type="text" name="campus" placeholder="enter campus name" />
+                        <input onChange={this.imgUrl} value={this.state.campusImgUrl} type='text' name="image" placeholder="enter imgUrl" />
+                        <button type='submit'>ADD</button>
+                    </form>
 
                 </div>
             </div>

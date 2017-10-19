@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import campusService from './campus-service'
 import {NavLink} from 'react-router-dom'
-import studentService from '../services/student-service'
 import axios from 'axios'
 
 
@@ -21,11 +19,12 @@ export default class SingleCampus extends Component{
     }
 
     componentWillMount() {
-        campusService.getCampus(this.props.match.params.campusId)
-        .then(campus => this.setState({campus, students: campus.students}))
+        const campusId = this.props.match.params.campusId
+        axios.get(`/api/campus/${campusId}`)
+            .then(res => res.data)
+            .then(campus => this.setState({campus, students: campus.students}))
     }
 
-    //remove students and have it reflect on the dom
     deleteStudent(event){
         const id = event.target.value
         const students = this.state.students.filter(student => student.id !== Number(id))
@@ -40,20 +39,18 @@ export default class SingleCampus extends Component{
             name: this.state.newName,
             imageUrl: this.state.newImg
         }
-        // axios.put(`/api/campus/${id}`, {
-        //     name: this.state.newName,
-        //     imageUrl: this.state.newImg
-        // })
-        campusService.updateCampus(campusToUpdate)
-            .then(updatedCampus => this.setState({
-                campus: updatedCampus
-            }))
+        axios.put(`/api/campus/${id}`, campusToUpdate)
+            .then(res => res.data)
+            .then(updatedCampus => {
+                this.setState({campus: updatedCampus})
+            })
     }
 
     campusName(event) {
         const name = event.target.value
         this.setState({newName: name})
     }
+    
     campusImg(event) {
         const campusImg = event.target.value
         this.setState({newImg: campusImg})
@@ -61,9 +58,7 @@ export default class SingleCampus extends Component{
 
     render() {
         const campus = this.state.campus;
-        //const students = campus.students ? campus.students : {};
         const students = this.state.students;
-        console.log(this.state.students)
           return (
             <div>
                 <h3>{campus.name}</h3>

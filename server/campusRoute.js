@@ -1,10 +1,9 @@
 const express = require('express')
 const router = express.Router();
 const { Campus, Student } = require('../db/models');
-const campus = require('./campus/campus')
 
 router.get('/', function(req, res, next) {
-    campus.getAll()
+    Campus.findAll()
     .then(allCampus => res.json(allCampus))
     .catch(next)
 })
@@ -29,13 +28,14 @@ router.post('/', function(req, res, next) {
 })
 
 router.put('/:id', function(req, res, next) {
-    const id = req.params.id
+    const id = Number(req.params.id)
     console.log('put request hit')
     Campus.findById(id)
-    .then(foundCampus => foundCampus.update({
+    .then((foundCampus) => foundCampus.update({
         name: req.body.name,
         imageUrl: req.body.imageUrl
     }))
+    .then(createdCampus => res.json(createdCampus))
     .catch(next)
 })
 
