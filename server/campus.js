@@ -29,14 +29,12 @@ router.post('/', function(req, res, next) {
 })
 
 router.put('/:id', function(req, res, next) {
-    Campus.findById({
-        where: {
-            id: req.body.id
-        }
-    })
-    .then(Campus.update({
+    const id = req.params.id
+    console.log('put request hit')
+    Campus.findById(id)
+    .then(foundCampus => foundCampus.update({
         name: req.body.name,
-        imageUrl: req.body.content
+        imageUrl: req.body.imageUrl
     }))
     .catch(next)
 })

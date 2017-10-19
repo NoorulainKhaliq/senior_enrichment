@@ -24,11 +24,16 @@ function createCampus(campus) {
     return httpRequest.post('/api/campus/', {
         name: campus.name,
         content: campus.imageUrl
-    }).then(res => res.data)
+    })
+    .then(res => res.data)
 }
 
 function updateCampus(campus) {
+    return httpRequest.put()
+}
 
+function put(url, data, config) {
+    return axios.put(url, data, config)
 }
 
 function deleteCampus(campusId) {
@@ -41,15 +46,3 @@ function deleteCampus(campusId) {
             return deleteCount
         })
 }
-
-// delete campus
-// update campus 
-
-
-/* 
-
-
-getAllCapuses
-getOne
-
-*/

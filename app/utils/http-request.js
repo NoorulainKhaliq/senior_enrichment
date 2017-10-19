@@ -19,7 +19,6 @@ function put(url, data, config) {
     return axios.put(url, data, config)
 }
 
-function remove (url, config) {
-    return axios.delete(url, config)
+function remove (url) {
+    return axios.delete(url)
 }
-

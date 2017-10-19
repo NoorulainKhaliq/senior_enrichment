@@ -1,16 +1,16 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import axios from 'axios';
 import {NavLink} from 'react-router-dom'
-import campusService from './campus-service'
+import campusService from '../services/campus-service'
 
 export default class AllCampuses extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            allCampuses: [],
+            allCampuses:[],
             campusName: "",
             campusImgUrl: ""
         }
-        
         this.deleteCampus = this.deleteCampus.bind(this)
         this.imgUrl = this.imgUrl.bind(this)
         this.campusName = this.campusName.bind(this)
@@ -19,47 +19,44 @@ export default class AllCampuses extends Component {
 
     componentWillMount() {
         campusService.getAllCampuses()
-            .then(allCampuses =>
-                this.setState({
-                    allCampuses
-                })
-            )
+        .then(allCampuses => 
+            this.setState({allCampuses})
+        )
     }
 
+    //NOTE TO SELF: REMEMBER TO CHANGE AXIOS TO HTTP
+    
     deleteCampus(event) {
         const id = event.target.value;
-        const value = this.state.allCampuses.filter(campus => campus.id !== Number(id))
-        this.setState({allCampuses: value})
-        campusService.deleteCampus(id)
+        axios.delete(`/api/campus/${id}`)
+        .then(res => {
+            if(res.status === 200) {
+                campusService.getAllCampuses()
+                .then(allCampuses => 
+                    this.setState({allCampuses})
+                )
+            }
+        })
     }
-    
 
     addCampus(event) {
         event.preventDefault();
-        const campusToCreate = {
+        axios.post('api/campus/newcampus', {
             name: this.state.campusName,
-            imageUrl: this.state.campusImgUrl
-        }
-        campusService.createCampus(campusToCreate)
-            .then(createdCampus => this.setState({
-                campusName: "",
-                campusImgUrl: "",
-                allCampuses: [...this.state.allCampuses, createdCampus]
-            }))
+            content: this.state.campusImgUrl
+        })
+        .then(res => res.data)
+        .then(createdCampus => this.setState({campusName: "", campusImgUrl: "", allCampuses:[...this.state.allCampuses, createdCampus]}))
     }
 
     campusName(event) {
         const campusName = event.target.value;
-        this.setState({
-            campusName
-        })
+        this.setState({campusName})
     }
 
     imgUrl(event) {
         const campusImgUrl = event.target.value;
-        this.setState({
-            campusImgUrl: campusImgUrl
-        })
+        this.setState({campusImgUrl: campusImgUrl})
     }
 
     render() {

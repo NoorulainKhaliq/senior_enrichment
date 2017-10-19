@@ -24,13 +24,14 @@ export default class SingleStudent extends Component {
         studentService.getSingleStudent(this.props.match.params.id)
         .then(student => {
             this.setState({selectedStudent: student})
-        })
+        })//requesting all campuses
         campusService.getAllCampuses()
         .then(allCampuses => this.setState(
             {allCampuses}
         ))
     }
 
+    //live update doesn't work
     updateStudent(event){
         event.preventDefault();
         const id = this.state.selectedStudent.id
@@ -39,16 +40,19 @@ export default class SingleStudent extends Component {
             email: this.state.newEmail,
             campusId: this.state.newCampus
         })
+        .then(updatedStudent => {this.setState({selectedStudent: updatedStudent})})
     }
 
     studentName(event) {
         const newName = event.target.value
         this.setState({newName: newName})
     }
+
     studentEmail(event) {
         const newEmail = event.target.value;
         this.setState({newEmail})
     }
+
     studentCampus(event) {
         const newCampus = event.target.value;
         this.setState({newCampus})

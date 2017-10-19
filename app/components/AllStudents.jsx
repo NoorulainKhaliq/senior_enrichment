@@ -27,6 +27,12 @@ export default class AllStudents extends Component {
         //try to rerender dom immediately to reflect the changes made
         const id = event.target.value;
         axios.delete(`/api/student/${id}`)
+        .then(deletedStudent => {
+            studentService.getAllStudents()
+            .then(allStudents => {
+                this.setState({allStudents})
+            })
+        })
     }
 
     render() {
@@ -42,7 +48,6 @@ export default class AllStudents extends Component {
                     <th>Name</th>
                     <th>Campus</th>
                     <th>Remove</th>
-                    <th>Update</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -57,9 +62,6 @@ export default class AllStudents extends Component {
                                     <td>
                                     <button onClick={this.deleteThisStudent} value={student.id} type="button" className="btn btn-secondary btn-sm">Remove</button>
                                     </td>
-                                    <td>
-                                    <button onClick={this.handleOnClick} value={student.id} type="button" className="btn btn-secondary btn-sm">Update</button>
-                                    </td>
                                 </tr>
                             )
                         })
@@ -70,6 +72,3 @@ export default class AllStudents extends Component {
         )
     }
 }
-
-//add onclick functionality to the button so that the student is removed and the removal is reflected
-//on the page. 

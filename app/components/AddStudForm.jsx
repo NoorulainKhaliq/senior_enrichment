@@ -4,13 +4,13 @@ import campusService from '../services/campus-service'
 import axios from 'axios';
 
 export default class StudentForm extends Component{
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       campuses: [],
       newStudentEmail: "",
       newStudentName: "",
-      selectedCampus: ""
+      selectedCampus: 0
   }
     this.addStudent = this.addStudent.bind(this);
     this.studentName = this.studentName.bind(this);
@@ -32,7 +32,8 @@ export default class StudentForm extends Component{
         email: this.state.newStudentEmail,
         campusId: this.state.selectedCampus
     })
-    .then(createdStudent => {alert('new student added!')})
+    .then(createdStudent => {alert(createdStudent.data.name + ' added!')})
+    .then(this.props.history.push(`/campus/${this.state.selectedCampus}`))
 }
   
   studentName(event) {
