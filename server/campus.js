@@ -43,9 +43,9 @@ router.put('/:id', function(req, res, next) {
 
 router.delete('/:id', function (req, res, next) {
     const id = req.params.id;
-  
-    Campus.destroy({ where: { id } })
-      .then(() => res.status(204).end())
+    return Campus.destroy({ where: { id } })
+    //   .then(() => res.sendStatus(200))
+    .then(deletedCampus => res.json(deletedCampus))
       .catch(next);
   });
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from './Header'
 import AllCampuses from './AllCampuses';
 import AllStudents from './AllStudents';
+import AddStudForm from './AddStudForm';
 import Homepage from './Homepage.jsx'
 import SingleCampus from './SingleCampus'
 import SingleStudent from './SingleStudent'
@@ -17,6 +18,7 @@ const Main = () => {
                     <Route exact path='/students' component={AllStudents}/>
                     <Route exact path='/campus' component={AllCampuses}/>
                     <Route exact path='/campus/:campusId' component={SingleCampus}/>
+                    <Route exact path='/student/newStudent' component={AddStudForm}/>
                     <Route exact path='/student/:id' component={SingleStudent}/>
                 </Switch>
         </div>  
@@ -26,3 +28,4 @@ const Main = () => {
 export default Main;
 
 //<Route exact path='/removeStudent/:id' component={AllStudents}/>
+//<Route exact path='/campus' component={AllCampuses}/>

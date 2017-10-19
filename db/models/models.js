@@ -22,8 +22,7 @@ const Student = db.define('student', {
     },
     email: {
         type: db.Sequelize.STRING,
-        allowNULL: false,
-        validate: {isEmail: true}
+        allowNULL: false
     },
     campusId: {
         type: db.Sequelize.INTEGER,

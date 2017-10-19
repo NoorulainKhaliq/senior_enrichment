@@ -28,6 +28,7 @@ export default class SingleCampus extends Component{
           return (
             <div>
                 <h3>{campus.name}</h3>
+                <div><img height='50%' width='50%' src={campus.imageUrl}/></div>
                 <ul>
                     {
                         campus.students && campus.students.map((student, idx) => {return (
@@ -37,6 +38,9 @@ export default class SingleCampus extends Component{
                         )})
                     }
                 </ul>
+                <NavLink to={'/student/newStudent'}>
+                    <button>Add Student</button>
+                </NavLink>
             </div>
         )
     }

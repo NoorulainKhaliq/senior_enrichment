@@ -5,7 +5,7 @@ import campusService from '../services/campus-service'
 
 export default class AllCampuses extends Component {
     constructor(props) {
-        super()
+        super(props)
         this.state = {
             allCampuses:[],
             campusName: "",
@@ -21,26 +21,27 @@ export default class AllCampuses extends Component {
         campusService.getAllCampuses()
         .then(allCampuses => 
             this.setState({allCampuses})
-        ) 
+        )
     }
 
     deleteCampus(event) {
+        event.preventDefault();
         const id = event.target.value;
-        console.log(id)
         axios.delete(`/api/campus/${id}`)
     }
+
     addCampus(event) {
         event.preventDefault();
-        console.log(this.state.campusName, this.state.campusImgUrl)
         axios.post('api/campus/newcampus', {
             name: this.state.campusName,
             content: this.state.campusImgUrl
         })
+        .then(res => res.data)
+        .then(createdCampus => this.setState({campusName: "", campusImgUrl: "", allCampuses:[...this.state.allCampuses, createdCampus]}))
     }
 
     campusName(event) {
         const campusName = event.target.value;
-        console.log(campusName)
         this.setState({campusName})
     }
 
@@ -77,14 +78,15 @@ export default class AllCampuses extends Component {
             }
                 </div>
                 <div>
+
                 <form onSubmit={this.addCampus}>
                     <legend>Add a Campus</legend>
-                    <input onChange={this.campusName} type="text" name="campus" placeholder="enter campus name"/>
-                    <input onChange={this.imgUrl} type='text' name="image" placeholder="enter imgUrl"/>
+                    <input onChange={this.campusName} value={this.state.campusName} type="text" name="campus" placeholder="enter campus name"/>
+                    <input onChange={this.imgUrl} value={this.state.campusImgUrl} type='text' name="image" placeholder="enter imgUrl"/>
                     <button type='submit'>ADD</button>
                 </form>
+
                 </div>
-               
             </div>
         )
     }

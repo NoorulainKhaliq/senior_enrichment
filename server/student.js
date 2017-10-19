@@ -51,15 +51,11 @@ router.post('/newstudent', function(req, res, next) {
 
 router.put('/:id', function(req, res, next) {
     let studentId = req.params.id
-    Student.findById({
-        where: {
-            id: studentId
-        }
-    })
-    .then(Student.update({
-        name: studentToUpdate.name,
-        email: studentToUpdate.email,
-
+    Student.findById(studentId)
+    .then((student) => student.update({
+        name: req.body.name,
+        email: req.body.email,
+        campusId: req.body.campusId
     }))
     .catch(next)
 })
