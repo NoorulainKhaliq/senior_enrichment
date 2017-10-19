@@ -1,5 +1,5 @@
 'use strict';
-const Campus = require('../../server/campus/campus-models.js')
+const Campus = require('../server/campus/campus-models.js')
 const Student = require('./models.js').Student
 
 // Require all the models
@@ -11,5 +11,3 @@ const Student = require('./models.js').Student
 
 Student.belongsTo(Campus);
 Campus.hasMany(Student);
-
-module.exports ={Campus, Student}

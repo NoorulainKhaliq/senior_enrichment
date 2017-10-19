@@ -1,15 +1,15 @@
 const express = require('express')
 const router = express.Router();
 const { Campus, Student } = require('../db/models');
+const campus = require('./campus/campus')
 
 router.get('/', function(req, res, next) {
-    Campus.findAll()
+    campus.getAll()
     .then(allCampus => res.json(allCampus))
     .catch(next)
 })
 
 router.get('/:id', function(req, res, next) {
-    console.log('server')
     const ID = req.params.id;
     Campus.findById(ID, {include: [{
         model: Student
@@ -18,7 +18,7 @@ router.get('/:id', function(req, res, next) {
     .catch(next)
 })
 
-router.post('/newcampus', function(req, res, next) {
+router.post('/', function(req, res, next) {
     let newCampus = req.body.name
     Campus.create({
         name: newCampus,
@@ -29,14 +29,14 @@ router.post('/newcampus', function(req, res, next) {
 })
 
 router.put('/:id', function(req, res, next) {
-    let campusToUpdate = req.body
     Campus.findById({
         where: {
-            id: campusToUpdate.id
+            id: req.body.id
         }
     })
     .then(Campus.update({
-        name: campusInfo.name
+        name: req.body.name,
+        imageUrl: req.body.content
     }))
     .catch(next)
 })
@@ -44,8 +44,7 @@ router.put('/:id', function(req, res, next) {
 router.delete('/:id', function (req, res, next) {
     const id = req.params.id;
     return Campus.destroy({ where: { id } })
-    //   .then(() => res.sendStatus(200))
-    .then(deletedCampus => res.json(deletedCampus))
+    .then(deletedCampus => res.json({id}))
       .catch(next);
   });
 

@@ -59,7 +59,6 @@ export default class SingleStudent extends Component {
         const campus = student.campus ? student.campus : {};
         const campusId= campus ? campus.id : {};
         const campuses = this.state.allCampuses;
-        console.log(this.state.newCampus)
         return (
             <div className="row">
                 <div className="text-left">

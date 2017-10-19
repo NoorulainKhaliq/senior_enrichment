@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import campusService from '../services/campus-service'
+import campusService from './campus-service'
 import {NavLink} from 'react-router-dom'
 
 
@@ -10,14 +9,8 @@ export default class SingleCampus extends Component{
         this.state = {campus: {}}
     }
 
-    // componentDidMount() {
-    //     campusService.getCampus(this.props.match.params.campusId)
-    //     .then(campus => this.setState({campus: campus}))
-    // }
-    
-    componentDidMount() {
-        axios.get(`/api/campus/${this.props.match.params.campusId}`)
-        .then(res => res.data)
+    componentWillMount() {
+        campusService.getCampus(this.props.match.params.campusId)
         .then(campus => this.setState({campus}))
     }
 

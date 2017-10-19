@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Header from './Header'
-import AllCampuses from './AllCampuses';
+import AllCampuses from '../campus/AllCampuses';
 import AllStudents from './AllStudents';
 import AddStudForm from './AddStudForm';
 import Homepage from './Homepage.jsx'
-import SingleCampus from './SingleCampus'
+import SingleCampus from '../campus/SingleCampus'
 import SingleStudent from './SingleStudent'
 import { Route, Switch, Redirect } from 'react-router-dom';
 
