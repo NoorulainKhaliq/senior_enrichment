@@ -13,6 +13,7 @@ const Main = () => {
     return (
         <div>
             <Header />
+
             <Switch>
                 <Route exact path='/' component={Homepage} />
                 <Route exact path='/students' component={AllStudents} />
@@ -26,6 +27,3 @@ const Main = () => {
 }
 
 export default Main;
-
-//<Route exact path='/removeStudent/:id' component={AllStudents}/>
-//<Route exact path='/campus' component={AllCampuses}/>

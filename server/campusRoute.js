@@ -27,9 +27,10 @@ router.get('/:id', function (req, res, next) {
 
 router.post('/', function (req, res, next) {
     let newCampus = req.body.name
+    console.log(req.body.imageUrl)
     Campus.create({
         name: newCampus,
-        imageUrl: req.body.content
+        imageUrl: req.body.imageUrl
     })
         .then(createdCampus => res.json(createdCampus))
         .catch(next)
@@ -37,7 +38,6 @@ router.post('/', function (req, res, next) {
 
 router.put('/:id', function (req, res, next) {
     const id = Number(req.params.id)
-    console.log('put request hit')
     Campus.findById(id)
         .then((foundCampus) => foundCampus.update({
             name: req.body.name,

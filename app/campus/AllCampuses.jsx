@@ -17,6 +17,7 @@ export default class AllCampuses extends Component {
         this.addCampus = this.addCampus.bind(this)
     }
 
+    //request to load state with all campuses
     componentWillMount() {
         axios.get(`/api/campus`)
             .then(res => res.data)
@@ -25,6 +26,7 @@ export default class AllCampuses extends Component {
             )
     }
 
+    //delete campus from all campuses page
     deleteCampus(event) {
         const id = event.target.value;
         const value = this.state.allCampuses.filter(campus => campus.id !== Number(id))
@@ -32,6 +34,7 @@ export default class AllCampuses extends Component {
         axios.delete(`api/campus/${id}`)
     }
 
+    //this is to add a campus from the campus page
     addCampus(event) {
         event.preventDefault();
         const campusToCreate = {
