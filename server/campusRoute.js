@@ -9,10 +9,18 @@ router.get('/', function(req, res, next) {
 })
 
 router.get('/:id', function(req, res, next) {
-    const ID = req.params.id;
-    Campus.findById(ID, {include: [{
-        model: Student
-    }]})
+    var ID = req.params.id;
+    ID = Number(ID)
+    console.log('in Route get Id', ID)
+    Campus.findById(ID, {include: 
+        [Student]
+    })
+    .then(found => {
+        if (!found) {
+            throw new Error('this campus is not found');
+        }
+        return found;
+    })
     .then(foundCampus => res.json(foundCampus))
     .catch(next)
 })

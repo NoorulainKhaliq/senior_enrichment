@@ -18,11 +18,14 @@ export default class SingleCampus extends Component{
         this.campusImg = this.campusImg.bind(this)
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const campusId = this.props.match.params.campusId
         axios.get(`/api/campus/${campusId}`)
             .then(res => res.data)
             .then(campus => this.setState({campus, students: campus.students}))
+            .catch(err => {
+                this.props.history.push('/campus')
+            })
     }
 
     deleteStudent(event){
@@ -67,7 +70,7 @@ export default class SingleCampus extends Component{
                     {
                         students && students.map((student, idx) => {return (
                             <div key={student.id}>
-                                <NavLink to={`/student/${student.id}`} key={idx}>
+                                <NavLink to={`/student/${student.id}`} key={student.id}>
                                     <li>{student.name}</li></NavLink> 
                                     <button onClick={this.deleteStudent} value={student.id}>Remove</button>
                             </div>

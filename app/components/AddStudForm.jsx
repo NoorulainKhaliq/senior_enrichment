@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import studentService from '../services/student-service'
-import campusService from '../services/campus-service'
+//import studentService from '../services/student-service'
+//import campusService from '../services/campus-service'
 import axios from 'axios';
 
 export default class StudentForm extends Component {
@@ -10,16 +10,18 @@ export default class StudentForm extends Component {
       campuses: [],
       newStudentEmail: "",
       newStudentName: "",
-      selectedCampus: 0
+      selectedCampus: ""
     }
+
     this.addStudent = this.addStudent.bind(this);
     this.studentName = this.studentName.bind(this);
     this.studentEmail = this.studentEmail.bind(this);
     this.studentCampus = this.studentCampus.bind(this);
   }
 
-  componentWillMount() {
-    campusService.getAllCampuses()
+  componentDidMount() {
+    axios.get('/api/campus')
+      .then(res => res.data)
       .then(allCampuses => {
         this.setState({ campuses: allCampuses })
       })
@@ -27,7 +29,8 @@ export default class StudentForm extends Component {
 
   addStudent(event) {
     event.preventDefault();
-    axios.post('/api/student/newStudent', {
+    console.log('from add student', this.state.selectedCampus)
+    axios.post('/api/student/newstudent', {
       name: this.state.newStudentName,
       email: this.state.newStudentEmail,
       campusId: this.state.selectedCampus
@@ -47,7 +50,8 @@ export default class StudentForm extends Component {
   }
   studentCampus(event) {
     const campus = event.target.value
-    this.setState({ selectedCampus: campus })
+    this.setState({ selectedCampus: Number(campus) })
+    console.log('this is id', campus)
   }
 
   render() {
@@ -69,7 +73,7 @@ export default class StudentForm extends Component {
               ))
             }
           </select>
-          <button type='submit'>ADD</button>
+          <button type="submit" className="button-main">Add Campus</button>
         </form>
       </div>
     )
