@@ -1,3 +1,5 @@
+I am redux
+
 # Senior Enrichment Project
 
 Make a thing!
