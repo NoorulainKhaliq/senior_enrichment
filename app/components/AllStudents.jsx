@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { NavLink, Link } from 'react-router-dom'
-// import studentService from '../services/student-service'
-// import campusService from '../services/campus-service'
 
-
-//be able to add and remove students from here
 
 export default class AllStudents extends Component {
     constructor(props) {
@@ -26,14 +22,15 @@ export default class AllStudents extends Component {
 
     deleteThisStudent(event) {
         const id = event.target.value;
-        const value = this.state.students.filter(student => student.id !== id)
-        console.log(value)
+        console.log(id)
+        const value = this.state.students.filter(student => student.id !== Number(id))
         this.setState({ students: value })
         axios.delete(`/api/student/${id}`)
     }
 
     render() {
         const students = this.state.students;
+        console.log(this.state.students)
         return (
             <div>
                 <NavLink to={'/student/newStudent'}>

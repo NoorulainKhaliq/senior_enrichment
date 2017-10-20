@@ -35,8 +35,7 @@ export default class StudentForm extends Component {
       campusId: this.state.selectedCampus
     })
       .then(res => res.data)
-      // .then(createdStudent => console.log(createdStudent))
-      .then(createdStudent => { alert(createdStudent.data.name + ' added!') })
+      .then(createdStudent => { alert(createdStudent.name + ' added!') })
       .then(this.props.history.push(`/campus/${this.state.selectedCampus}`))
   }
 
@@ -52,7 +51,6 @@ export default class StudentForm extends Component {
   studentCampus(event) {
     const campus = event.target.value
     this.setState({ selectedCampus: Number(campus) })
-    console.log('this is id', campus)
   }
 
   render() {
