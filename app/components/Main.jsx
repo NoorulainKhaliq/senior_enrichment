@@ -13,15 +13,15 @@ const Main = () => {
     return (
         <div>
             <Header />
-                <Switch>
-                    <Route exact path='/' component={Homepage}/>
-                    <Route exact path='/students' component={AllStudents}/>
-                    <Route exact path='/campus' component={AllCampuses}/>
-                    <Route exact path='/campus/:campusId' component={SingleCampus}/>
-                    <Route exact path='/student/newstudent' component={AddStudForm}/>
-                    <Route exact path='/student/:id' component={SingleStudent}/>
-                </Switch>
-        </div>  
+            <Switch>
+                <Route exact path='/' component={Homepage} />
+                <Route exact path='/students' component={AllStudents} />
+                <Route exact path='/campus' component={AllCampuses} />
+                <Route exact path='/campus/:campusId' component={SingleCampus} />
+                <Route exact path='/student/newstudent' component={AddStudForm} />
+                <Route exact path='/student/:id' component={SingleStudent} />
+            </Switch>
+        </div>
     )
 }
 

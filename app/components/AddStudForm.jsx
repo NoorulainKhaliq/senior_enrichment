@@ -34,6 +34,8 @@ export default class StudentForm extends Component {
       email: this.state.newStudentEmail,
       campusId: this.state.selectedCampus
     })
+      .then(res => res.data)
+      // .then(createdStudent => console.log(createdStudent))
       .then(createdStudent => { alert(createdStudent.data.name + ' added!') })
       .then(this.props.history.push(`/campus/${this.state.selectedCampus}`))
   }
@@ -66,6 +68,7 @@ export default class StudentForm extends Component {
             name="campusId"
             required
             onChange={this.studentCampus}>
+            <option value={null}>Choose a Campus</option>
             {
               campuses && campuses.map((campus, idx) => (
                 <option key={idx} value={campus.id}>{campus.name}</option>

@@ -1,3 +1,18 @@
+/**
+
+{
+  students: {
+    byId: {}
+    selectedStudent: 0
+  }
+  campuses: {
+    byId: {}
+    selectedCampus: 0
+  }
+}
+
+ */
+
 import { combineReducers } from 'redux'
 
 const initialState = {}

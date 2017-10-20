@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import studentService from '../services/student-service'
-import campusService from '../services/campus-service'
-import {NavLink} from 'react-router-dom'
+// import studentService from '../services/student-service'
+// import campusService from '../services/campus-service'
+import { NavLink } from 'react-router-dom'
 import axios from 'axios'
 
 export default class SingleStudent extends Component {
@@ -9,7 +9,7 @@ export default class SingleStudent extends Component {
         super(props)
         this.state = {
             allCampuses: [],
-            selectedStudent:{},
+            selectedStudent: {},
             newName: "",
             newEmail: "",
             newCampus: ""
@@ -22,17 +22,17 @@ export default class SingleStudent extends Component {
     componentDidMount() {
         //make an axios request to render the students information, including email
         studentService.getSingleStudent(this.props.match.params.id)
-        .then(student => {
-            this.setState({selectedStudent: student})
-        })//requesting all campuses
+            .then(student => {
+                this.setState({ selectedStudent: student })
+            })//requesting all campuses
         campusService.getAllCampuses()
-        .then(allCampuses => this.setState(
-            {allCampuses}
-        ))
+            .then(allCampuses => this.setState(
+                { allCampuses }
+            ))
     }
 
     //live update doesn't work
-    updateStudent(event){
+    updateStudent(event) {
         event.preventDefault();
         const id = this.state.selectedStudent.id
         axios.put(`/api/student/${id}`, {
@@ -40,28 +40,28 @@ export default class SingleStudent extends Component {
             email: this.state.newEmail,
             campusId: this.state.newCampus
         })
-        .then(updatedStudent => {this.setState({selectedStudent: updatedStudent})})
+            .then(updatedStudent => { this.setState({ selectedStudent: updatedStudent }) })
     }
 
     studentName(event) {
         const newName = event.target.value
-        this.setState({newName: newName})
+        this.setState({ newName: newName })
     }
 
     studentEmail(event) {
         const newEmail = event.target.value;
-        this.setState({newEmail})
+        this.setState({ newEmail })
     }
 
     studentCampus(event) {
         const newCampus = event.target.value;
-        this.setState({newCampus})
+        this.setState({ newCampus })
     }
 
     render() {
         const student = this.state.selectedStudent;
         const campus = student.campus ? student.campus : {};
-        const campusId= campus ? campus.id : {};
+        const campusId = campus ? campus.id : {};
         const campuses = this.state.allCampuses;
         return (
             <div className="row">
@@ -76,25 +76,25 @@ export default class SingleStudent extends Component {
 
                 <div className='text-center'>
                     <form onSubmit={this.updateStudent}>
-                            <legend>Update Student Information</legend>
-                        <input onChange={this.studentName} value={this.state.newName} type="text" name="student name" placeholder="enter name"/>
-                        <input onChange={this.studentEmail} value={this.state.newEmail} type='text' name='student email' placeholder='enter email'/>
+                        <legend>Update Student Information</legend>
+                        <input onChange={this.studentName} value={this.state.newName} type="text" name="student name" placeholder="enter name" />
+                        <input onChange={this.studentEmail} value={this.state.newEmail} type='text' name='student email' placeholder='enter email' />
 
                         <select onChange={this.studentCampus}>
-                        <option>Select Campus</option>
-                        {
-                            campuses && campuses.map(campus => {
-                                return (
-                                    <option key={campus.id} value={campus.id}>{campus.name}</option>
-                                )
-                            })
-                        }
+                            <option>Select Campus</option>
+                            {
+                                campuses && campuses.map(campus => {
+                                    return (
+                                        <option key={campus.id} value={campus.id}>{campus.name}</option>
+                                    )
+                                })
+                            }
                         </select>
 
                         <button>Update</button>
                     </form>
                 </div>
-          </div>
+            </div>
         )
     }
 }
