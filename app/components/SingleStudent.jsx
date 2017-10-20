@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-// import studentService from '../services/student-service'
-// import campusService from '../services/campus-service'
 import { NavLink } from 'react-router-dom'
 import axios from 'axios'
 
@@ -20,27 +18,35 @@ export default class SingleStudent extends Component {
         this.studentCampus = this.studentCampus.bind(this)
     }
     componentDidMount() {
-        //make an axios request to render the students information, including email
-        studentService.getSingleStudent(this.props.match.params.id)
-            .then(student => {
-                this.setState({ selectedStudent: student })
-            })//requesting all campuses
-        campusService.getAllCampuses()
-            .then(allCampuses => this.setState(
-                { allCampuses }
-            ))
+        axios.get(`/api/student/${this.props.match.params.id}`)
+            .then(res => res.data)
+            .then(student => this.setState({
+                selectedStudent: student
+            }))
+        axios.get(`/api/campus`)
+            .then(res => res.data)
+            .then(campuses => this.setState({
+                allCampuses: campuses
+            }))
     }
 
-    //live update doesn't work
     updateStudent(event) {
         event.preventDefault();
         const id = this.state.selectedStudent.id
+        this.setState({
+            selectedStudent: {
+                name: this.state.newName,
+                email: this.state.newEmail,
+                campusId: this.state.newCampus,
+                id: this.state.selectedStudent.id
+            }
+        })
+
         axios.put(`/api/student/${id}`, {
             name: this.state.newName,
             email: this.state.newEmail,
             campusId: this.state.newCampus
         })
-            .then(updatedStudent => { this.setState({ selectedStudent: updatedStudent }) })
     }
 
     studentName(event) {
@@ -77,15 +83,15 @@ export default class SingleStudent extends Component {
                 <div className='text-center'>
                     <form onSubmit={this.updateStudent}>
                         <legend>Update Student Information</legend>
-                        <input onChange={this.studentName} value={this.state.newName} type="text" name="student name" placeholder="enter name" />
-                        <input onChange={this.studentEmail} value={this.state.newEmail} type='text' name='student email' placeholder='enter email' />
+                        <input onChange={this.studentName} value={this.state.newName} type="text" name="student_name" placeholder="enter name" />
+                        <input onChange={this.studentEmail} value={this.state.newEmail} type='text' name='student_email' placeholder='enter email' />
 
-                        <select onChange={this.studentCampus}>
+                        <select name='name' onChange={this.studentCampus}>
                             <option>Select Campus</option>
                             {
                                 campuses && campuses.map(campus => {
                                     return (
-                                        <option key={campus.id} value={campus.id}>{campus.name}</option>
+                                        <option key={campus.id} id={campus.name} value={campus.id}>{campus.name}</option>
                                     )
                                 })
                             }
