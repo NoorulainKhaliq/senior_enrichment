@@ -1,5 +1,5 @@
 'use strict';
-const Campus = require('../../server/campus/campus-models.js')
+const Campus = require('./models').Campus
 const Student = require('./models.js').Student
 
 // Require all the models

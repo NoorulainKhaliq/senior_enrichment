@@ -18,7 +18,7 @@ const Main = () => {
                     <Route exact path='/students' component={AllStudents}/>
                     <Route exact path='/campus' component={AllCampuses}/>
                     <Route exact path='/campus/:campusId' component={SingleCampus}/>
-                    <Route exact path='/student/newStudent' component={AddStudForm}/>
+                    <Route exact path='/student/newstudent' component={AddStudForm}/>
                     <Route exact path='/student/:id' component={SingleStudent}/>
                 </Switch>
         </div>  
