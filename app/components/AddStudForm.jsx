@@ -29,7 +29,6 @@ export default class StudentForm extends Component {
 
   addStudent(event) {
     event.preventDefault();
-    console.log('from add student', this.state.selectedCampus)
     axios.post('/api/student/newstudent', {
       name: this.state.newStudentName,
       email: this.state.newStudentEmail,
