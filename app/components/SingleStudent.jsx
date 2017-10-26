@@ -17,6 +17,11 @@ export default class SingleStudent extends Component {
         this.studentEmail = this.studentEmail.bind(this)
         this.studentCampus = this.studentCampus.bind(this)
     }
+
+    //depending on the student, first axios call sets the selectedStudent state to the students
+    //whose id we navigated to 
+    //second axios call loads all the campuses so the user has options to choose from in 
+    //the event they decide to update student information
     componentDidMount() {
         axios.get(`/api/student/${this.props.match.params.id}`)
             .then(res => res.data)
@@ -29,6 +34,7 @@ export default class SingleStudent extends Component {
                 allCampuses: campuses
             }))
     }
+
 
     updateStudent(event) {
         event.preventDefault();

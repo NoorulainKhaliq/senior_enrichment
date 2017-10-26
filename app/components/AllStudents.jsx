@@ -12,6 +12,7 @@ export default class AllStudents extends Component {
         this.deleteThisStudent = this.deleteThisStudent.bind(this);
     }
 
+    //loads all students to state
     componentDidMount() {
         axios.get('/api/student')
             .then(res => res.data)
@@ -19,7 +20,9 @@ export default class AllStudents extends Component {
                 this.setState({ students })
             })
     }
-
+    //allows deletion of student from all campuses page
+    //updates the view so the deletion is reflected on the page before the
+    //axios call is made to the backend
     deleteThisStudent(event) {
         const id = event.target.value;
         console.log(id)
@@ -30,7 +33,7 @@ export default class AllStudents extends Component {
 
     render() {
         const students = this.state.students;
-        console.log(this.state.students)
+
         return (
             <div>
                 <NavLink to={'/student/newStudent'}>

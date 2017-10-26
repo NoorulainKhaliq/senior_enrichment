@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom'
 import axios from 'axios';
+import store from '../store'
 
 export default class AllCampuses extends Component {
     constructor(props) {
@@ -29,18 +30,20 @@ export default class AllCampuses extends Component {
     //delete campus from all campuses page
     deleteCampus(event) {
         const id = event.target.value;
+        //this updates the view before the deletion occurrs in the backend
         const value = this.state.allCampuses.filter(campus => campus.id !== Number(id))
         this.setState({ allCampuses: value })
         axios.delete(`api/campus/${id}`)
     }
 
-    //this is to add a campus from the campus page
+    //this is to add a campus from the ALL CAMPUS page
     addCampus(event) {
         event.preventDefault();
         const campusToCreate = {
             name: this.state.campusName,
             imageUrl: this.state.campusImgUrl
         }
+
         axios.post(`api/campus`, campusToCreate)
             .then(res => res.data)
             .then(createdCampus => this.setState({
@@ -50,6 +53,7 @@ export default class AllCampuses extends Component {
             }))
     }
 
+    //functions to setstate onchange depending on user input
     campusName(event) {
         const campusName = event.target.value;
         this.setState({
@@ -92,7 +96,7 @@ export default class AllCampuses extends Component {
                     }
                 </div>
                 <div>
-
+                    {/* form to add a campus from the all campus page */}
                     <form onSubmit={this.addCampus}>
                         <legend>Add a Campus</legend>
                         <input onChange={this.campusName} value={this.state.campusName} type="text" name="campus" placeholder="enter campus name" />

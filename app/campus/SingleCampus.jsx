@@ -37,6 +37,7 @@ export default class SingleCampus extends Component {
         this.setState({ students })
         axios.delete(`/api/student/${id}`)
     }
+
     //the update form is on the single campus page to change information of the campus
     updateCampus(event) {
         event.preventDefault();

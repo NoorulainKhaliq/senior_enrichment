@@ -2,12 +2,15 @@ const express = require('express')
 const router = express.Router();
 const { Campus, Student } = require('../db/models');
 
+
+//this is a route to get all campuses
 router.get('/', function (req, res, next) {
     Campus.findAll()
         .then(allCampus => res.json(allCampus))
         .catch(next)
 })
 
+//route to get campus by id
 router.get('/:id', function (req, res, next) {
     var ID = req.params.id;
     ID = Number(ID)
@@ -25,6 +28,7 @@ router.get('/:id', function (req, res, next) {
         .catch(next)
 })
 
+//route to create campus 
 router.post('/', function (req, res, next) {
     let newCampus = req.body.name
     console.log(req.body.imageUrl)
@@ -36,6 +40,7 @@ router.post('/', function (req, res, next) {
         .catch(next)
 })
 
+//update campus
 router.put('/:id', function (req, res, next) {
     const id = Number(req.params.id)
     Campus.findById(id)
@@ -47,6 +52,7 @@ router.put('/:id', function (req, res, next) {
         .catch(next)
 })
 
+//delete campus -- looks to delete campus by id
 router.delete('/:id', function (req, res, next) {
     const id = req.params.id;
     return Campus.destroy({ where: { id } })

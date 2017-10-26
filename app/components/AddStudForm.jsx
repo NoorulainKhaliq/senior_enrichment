@@ -19,6 +19,7 @@ export default class StudentForm extends Component {
     this.studentCampus = this.studentCampus.bind(this);
   }
 
+  //sets campus state to all campuses
   componentDidMount() {
     axios.get('/api/campus')
       .then(res => res.data)
@@ -27,6 +28,7 @@ export default class StudentForm extends Component {
       })
   }
 
+  //adds student 
   addStudent(event) {
     event.preventDefault();
     axios.post('/api/student/newstudent', {
@@ -36,9 +38,10 @@ export default class StudentForm extends Component {
     })
       .then(res => res.data)
       .then(createdStudent => { alert(createdStudent.name + ' added!') })
-      .then(this.props.history.push(`/campus/${this.state.selectedCampus}`))
+      .then(this.props.history.push(`/campus/${this.state.selectedCampus}`))//navigate to the campus student added to
   }
 
+  //functions to set state on change
   studentName(event) {
     const name = event.target.value
     this.setState({ newStudentName: name })
@@ -57,6 +60,7 @@ export default class StudentForm extends Component {
     const campuses = this.state.campuses;
     return (
       <div>
+
         <form onSubmit={this.addStudent}>
           <legend>Add a Student</legend>
           <input onChange={this.studentName} type="text" name="name" placeholder='enter name' />

@@ -1,12 +1,12 @@
-const initialState = {
-    byId: {},
-    selectedCampus: null
-}
+// const initialState = {
+//     byId: {},
+//     selectedCampus: null
+// }
 
-const campusReducer = function(state = initialState, action) {
-  switch(action.type) {
-    default: return state
-  }
-};
+// const campusReducer = function(state = initialState, action) {
+//   switch(action.type) {
+//     default: return state
+//   }
+// };
 
-export default campusReducer
+// export default campusReducer
