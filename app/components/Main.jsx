@@ -7,25 +7,25 @@ import Homepage from './Homepage.jsx'
 import SingleCampus from '../campus/SingleCampus'
 import SingleStudent from './SingleStudent'
 import { Route, Switch, Redirect } from 'react-router-dom';
+import axios from 'axios'
 
-//this is now stateless
-const Main = () => {
-    return (
-        <div>
-            <Header />
+
+export default class Main extends Component {
+
+    render() {
+        return (
+            <div>
+                <Header />
+
                 <Switch>
-                    <Route exact path='/' component={Homepage}/>
-                    <Route exact path='/students' component={AllStudents}/>
-                    <Route exact path='/campus' component={AllCampuses}/>
-                    <Route exact path='/campus/:campusId' component={SingleCampus}/>
-                    <Route exact path='/student/newstudent' component={AddStudForm}/>
-                    <Route exact path='/student/:id' component={SingleStudent}/>
+                    <Route exact path='/' component={Homepage} />
+                    <Route exact path='/students' component={AllStudents} />
+                    <Route exact path='/campus' component={AllCampuses} />
+                    <Route exact path='/campus/:campusId' component={SingleCampus} />
+                    <Route exact path='/student/newstudent' component={AddStudForm} />
+                    <Route exact path='/student/:id' component={SingleStudent} />
                 </Switch>
-        </div>  
-    )
+            </div>
+        )
+    }
 }
-
-export default Main;
-
-//<Route exact path='/removeStudent/:id' component={AllStudents}/>
-//<Route exact path='/campus' component={AllCampuses}/>

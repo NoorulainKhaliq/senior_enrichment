@@ -1,73 +1,70 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import {NavLink, Link} from 'react-router-dom'
-import studentService from '../services/student-service'
-import campusService from '../services/campus-service'
+import { NavLink, Link } from 'react-router-dom'
 
-
-//be able to add and remove students from here
 
 export default class AllStudents extends Component {
     constructor(props) {
         super()
         this.state = {
-            allStudent:[]
+            students: []
         }
         this.deleteThisStudent = this.deleteThisStudent.bind(this);
     }
 
-    componentWillMount() {
-        studentService.getAllStudents()
-        .then(allStudents => {
-            this.setState({allStudents})
-        })
-    }
-
-    deleteThisStudent(event) {
-        //try to rerender dom immediately to reflect the changes made
-        const id = event.target.value;
-        axios.delete(`/api/student/${id}`)
-        .then(deletedStudent => {
-            studentService.getAllStudents()
-            .then(allStudents => {
-                this.setState({allStudents})
+    //loads all students to state
+    componentDidMount() {
+        axios.get('/api/student')
+            .then(res => res.data)
+            .then(students => {
+                this.setState({ students })
             })
-        })
+    }
+    //allows deletion of student from all campuses page
+    //updates the view so the deletion is reflected on the page before the
+    //axios call is made to the backend
+    deleteThisStudent(event) {
+        const id = event.target.value;
+        console.log(id)
+        const value = this.state.students.filter(student => student.id !== Number(id))
+        this.setState({ students: value })
+        axios.delete(`/api/student/${id}`)
     }
 
     render() {
-        const students = this.state.allStudents;
-        return(
+        const students = this.state.students;
+
+        return (
             <div>
-            <NavLink to={'/student/newStudent'}>
-            <button>Add Student</button>
-            </NavLink>
-            <table className="table" >
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Campus</th>
-                    <th>Remove</th>
-                </tr>
-                </thead>
-                <tbody>
-                    {
-                        students && students.map((student, idx) => {
-                            return (
-                                <tr key={idx}>
-                                    <NavLink to={`/student/${student.id}`}><td>{student.name}</td></NavLink>
-                                    
-                                    <td> 
-                                    {student.campus ? student.campus.name : 'no campus assigned'}</td>
-                                    <td>
-                                    <button onClick={this.deleteThisStudent} value={student.id} type="button" className="btn btn-secondary btn-sm">Remove</button>
-                                    </td>
-                                </tr>
-                            )
-                        })
-                    }
-                </tbody>
-            </table>
+                <NavLink to={'/student/newStudent'}>
+                    <button>Add Student</button>
+                </NavLink>
+                <table className="table" >
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Campus</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            students && students.map((student, idx) => {
+                                return (
+                                    <tr key={idx}>
+                                        <NavLink to={`/student/${student.id}`}><td>{student.name}</td></NavLink>
+
+                                        <td>
+                                            {student.campus ? student.campus.name : 'no campus assigned'}</td>
+                                        <td>
+                                            <button onClick={this.deleteThisStudent} value={student.id} type="button" className="btn btn-secondary btn-sm">Remove</button>
+                                        </td>
+                                    </tr>
+                                )
+                            })
+                        }
+                    </tbody>
+                </table>
             </div>
         )
     }
