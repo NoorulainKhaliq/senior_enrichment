@@ -1,75 +1,65 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom'
 import axios from 'axios';
-import store from '../store'
+import store, { fetchCampuses, destroyCampus, createCampus } from '../store'
 
 export default class AllCampuses extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            allCampuses: [],
-            campusName: "",
-            campusImgUrl: ""
-        }
-
-        this.deleteCampus = this.deleteCampus.bind(this)
-        this.imgUrl = this.imgUrl.bind(this)
-        this.campusName = this.campusName.bind(this)
-        this.addCampus = this.addCampus.bind(this)
+            name: "",
+            imageUrl: ""
+        };
+        this.addCampus = this.addCampus.bind(this);
+        this.campusName = this.campusName.bind(this);
+        this.campusImg = this.campusImg.bind(this);
     }
 
-    //request to load state with all campuses
-    componentWillMount() {
-        axios.get(`/api/campus`)
-            .then(res => res.data)
-            .then(allCampuses =>
-                this.setState({ allCampuses })
-            )
+    componentDidMount() {
+        this.unsubscribe = store.subscribe(() => {
+            return this.setState(store.getState())
+        })
+        const fetchCampusesThunk = fetchCampuses();
+        store.dispatch(fetchCampusesThunk)
     }
 
-    //delete campus from all campuses page
-    deleteCampus(event) {
-        const id = event.target.value;
-        //this updates the view before the deletion occurrs in the backend
-        const value = this.state.allCampuses.filter(campus => campus.id !== Number(id))
-        this.setState({ allCampuses: value })
-        axios.delete(`api/campus/${id}`)
+    componentWIllUnmount() {
+        this.unsubscribe();
     }
 
-    //this is to add a campus from the ALL CAMPUS page
-    addCampus(event) {
-        event.preventDefault();
+    deleteCampus(evt) {
+        const id = evt.target.value;
+        const destroyCampusThunk = destroyCampus(id);
+        store.dispatch(destroyCampusThunk);
+        store.dispatch(fetchCampuses())
+    }
+
+    addCampus(evt) {
+        evt.preventDefault();
         const campusToCreate = {
-            name: this.state.campusName,
-            imageUrl: this.state.campusImgUrl
+            name: this.state.name,
+            imageUrl: this.state.imageUrl
         }
-
-        axios.post(`api/campus`, campusToCreate)
-            .then(res => res.data)
-            .then(createdCampus => this.setState({
-                campusName: "",
-                campusImgUrl: "",
-                allCampuses: [...this.state.allCampuses, createdCampus]
-            }))
+        const createCampusThunk = createCampus(campusToCreate);
+        store.dispatch(createCampusThunk)
+        store.dispatch(fetchCampuses())
     }
 
-    //functions to setstate onchange depending on user input
-    campusName(event) {
-        const campusName = event.target.value;
-        this.setState({
-            campusName
-        })
+    campusName(evt) {
+        const name = evt.target.value;
+        this.setState({ name })
+
     }
 
-    imgUrl(event) {
-        const campusImgUrl = event.target.value;
-        this.setState({
-            campusImgUrl: campusImgUrl
-        })
+    campusImg(evt) {
+        const imageUrl = evt.target.value;
+        this.setState({ imageUrl })
     }
+
 
     render() {
-        const campuses = this.state.allCampuses;
+        console.log(this.props, ' these are from props')
+        const campuses = this.state.campuses;
         return (
             <div className="col-xs-10">
                 <div className="row">
@@ -99,11 +89,22 @@ export default class AllCampuses extends Component {
                     {/* form to add a campus from the all campus page */}
                     <form onSubmit={this.addCampus}>
                         <legend>Add a Campus</legend>
-                        <input onChange={this.campusName} value={this.state.campusName} type="text" name="campus" placeholder="enter campus name" />
-                        <input onChange={this.imgUrl} value={this.state.campusImgUrl} type='text' name="image" placeholder="enter imgUrl" />
+                        <input
+                            onChange={this.campusName}
+                            value={this.state.name}
+                            type="text"
+                            name="campus"
+                            placeholder="enter campus name"
+                        />
+                        <input
+                            onChange={this.campusImg}
+                            value={this.state.imageUrl}
+                            type='text'
+                            name="image"
+                            placeholder="enter imgUrl"
+                        />
                         <button type='submit'>ADD</button>
                     </form>
-
                 </div>
             </div>
         )

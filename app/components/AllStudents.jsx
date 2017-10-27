@@ -1,34 +1,26 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { NavLink, Link } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom';
+import store, { fetchStudents } from '../store'
 
 
 export default class AllStudents extends Component {
     constructor(props) {
         super()
-        this.state = {
-            students: []
-        }
-        this.deleteThisStudent = this.deleteThisStudent.bind(this);
+        this.state = store.getState();
     }
 
     //loads all students to state
     componentDidMount() {
-        axios.get('/api/student')
-            .then(res => res.data)
-            .then(students => {
-                this.setState({ students })
-            })
+        this.unsubscribe = store.subscribe(() => {
+            this.setState(store.getState())
+        })
+        const fetchStudentsThunk = fetchStudents();
+        store.dispatch(fetchStudentsThunk)
     }
-    //allows deletion of student from all campuses page
-    //updates the view so the deletion is reflected on the page before the
-    //axios call is made to the backend
-    deleteThisStudent(event) {
-        const id = event.target.value;
-        console.log(id)
-        const value = this.state.students.filter(student => student.id !== Number(id))
-        this.setState({ students: value })
-        axios.delete(`/api/student/${id}`)
+
+    componentWillUnmount() {
+        this.unsubscribe();
     }
 
     render() {
